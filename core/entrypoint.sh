@@ -23,8 +23,8 @@ generate-concepts-usagi-input() {
 
 apply-sqlmesh-plan() {
   echo "Running SQLMesh plan..."
-  sqlmesh plan --no-prompts --auto-apply --restate-model '*'
-#  sqlmesh plan --no-prompts --auto-apply
+  # sqlmesh plan --no-prompts --auto-apply --restate-model '*'
+  sqlmesh plan --no-prompts --auto-apply
   echo "SQLMesh plan completed."
 }
 
@@ -93,7 +93,7 @@ migrate-to-postgresql() {
 
   cat <<EOF > $TEMP_DIR/temp_pgloader.load
 LOAD DATABASE
-       FROM mysql://root:$SQLMESH_DB_ROOT_PASSWORD@sqlmesh-db:$MYSQL_PORT/$TARGET_MYSQL_DB
+       FROM mysql://root:$MYSQL_PASSWORD@sqlmesh-db:$MYSQL_PORT/$TARGET_MYSQL_DB
        INTO postgresql://$TARGET_USER:$TARGET_PASS@$TARGET_HOST:$TARGET_PORT/$TARGET_DB
 
         WITH include no drop,
@@ -204,8 +204,14 @@ SQL
 command="$1"
 shift
 
+echo "Populating CDM source in schema: $CDM_SCHEMA"
+echo "Verifying insert..."
+psql ... -c "SELECT * FROM ${CDM_SCHEMA}.cdm_source;"
+
 echo "DEBUG: received command: $command"
 echo "DEBUG: all args: $@"
+echo "Verifying insert..."
+psql ... -c "SELECT * FROM ${CDM_SCHEMA}.cdm_source;"
 
 # Create tmp directory if it doesn't exist
 mkdir -p "$TEMP_DIR"

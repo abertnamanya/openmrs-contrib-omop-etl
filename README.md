@@ -363,8 +363,8 @@ Before cloning, install Git LFS:
 After installing Git LFS, clone the repository:
 
 ```sh
-git clone https://github.com/jayasanka-sack/openmrs-to-omop.git
-cd openmrs-to-omop
+git clone https://github.com/openmrs/openmrs-contrib-omop-etl.git
+cd openmrs-contrib-omop-etl
 ```
 
 Git LFS will automatically download the large files.
